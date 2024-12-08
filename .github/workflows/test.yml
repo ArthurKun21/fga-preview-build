@@ -13,7 +13,7 @@ env:
 
 jobs:
   test-build-app:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -48,7 +48,7 @@ jobs:
           prev_commit_count=$(echo "${{ steps.last_release.outputs.tag_name }}" | sed -e "s/^pre-//")
           echo "prev_commit_count $prev_commit_count"
 
-          commit_count_diff=$(expr $commit_count - $prev_commit_count)
+          commit_count_diff=$(echo "$commit_count - $prev_commit_count" | echo bc)
           echo "commit_count_diff $commit_count_diff"
 
           prev_release_sha=$(git rev-parse --short HEAD~$commit_count_diff)
