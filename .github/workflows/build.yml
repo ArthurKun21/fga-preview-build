@@ -14,6 +14,9 @@ env:
 jobs:
   build-app:
     runs-on: macos-latest
+    outputs:
+      CREATE_RELEASE: ${{ steps.create_release.outputs.CREATE_RELEASE }}
+      CHANGELOG: ${{ steps.create_release.outputs.CHANGELOG }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -123,7 +126,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   changelog:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: build-app
     permissions:
       contents: write
