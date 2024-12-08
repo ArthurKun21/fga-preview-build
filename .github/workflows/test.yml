@@ -3,7 +3,7 @@ name: test build app
 on:
   # Manual triggers
   workflow_dispatch:
-  pull_request:
+  push:
     branches-ignore:
       - main
 
@@ -12,7 +12,7 @@ env:
   JAVA_DISTRO: 'temurin'
 
 jobs:
-  build-app:
+  test-build-app:
     runs-on: macos-latest
     steps:
       - name: Checkout code
