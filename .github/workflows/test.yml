@@ -2,6 +2,9 @@ name: test release
 
 on:
   workflow_dispatch:
+  push:
+    branches-ignore:
+      - main
 
 env:
   JAVA_VERSION: 17
