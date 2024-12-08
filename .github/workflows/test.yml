@@ -17,6 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           repository: 'ArthurKun21/FGA-Preview'
           token: ${{ secrets.PAT }}
       - name: Prepare build
