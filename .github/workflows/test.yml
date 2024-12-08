@@ -14,6 +14,12 @@ jobs:
   test-release:
     runs-on: macos-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: 'ArthurKun21/FGA-Preview'
+          token: ${{ secrets.PAT }}
+          
       - name: Get previous release
         id: last_release
         uses: InsonusK/get-latest-release@7a9ff16c8c6b7ead5d71c0f1cc61f2703170eade # v1.1.0
