@@ -37,7 +37,6 @@ jobs:
           echo "draft: ${{ steps.last_release.outputs.draft }}"
           echo "prerelease: ${{ steps.last_release.outputs.prerelease }}"
           echo "url: ${{ steps.last_release.outputs.url }}"
-          echo "html_url: ${{ steps.last_release.outputs.html_url }}"
       - name: Prepare build
         run: |
           commit_count=$(git rev-list --count HEAD)
