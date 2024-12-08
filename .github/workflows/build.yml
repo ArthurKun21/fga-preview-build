@@ -83,6 +83,20 @@ jobs:
           cp app/build/outputs/apk/preview/app-preview.apk fga-preview-${{ env.COMMIT_COUNT }}.apk
           sha=`shasum -a 256 fga-preview-${{ env.COMMIT_COUNT }}.apk | awk '{ print $1 }'`
           echo "APK_UNIVERSAL_SHA=$sha" >> $GITHUB_ENV
+      - name: Update CHANGELOG.md
+        if: ${{ env.commit_count_diff > 0 }}
+        run: |
+          # Get the current date
+          CURRENT_DATE=$(date +"%Y-%m-%d")
+
+          COMPARISON_LINK="https://github.com/ArthurKun21/fga-preview/compare/${{ env.PREV_RELEASE_SHA }}...${{ env.CURRENT_SHA }}"
+          echo -e "\n## $CURRENT_DATE\n${{ env.COMMIT_LOGS }}\n\n[Compare changes]($COMPARISON_LINK)\n" >> CHANGELOG.md
+
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com' 
+
+          git add CHANGELOG.md
+          git commit -m 'Append to CHANGELOG.md [skip ci]' git push
 
       - name: Create release
         uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.1.0
