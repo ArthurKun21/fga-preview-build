@@ -97,6 +97,7 @@ jobs:
 
           git add CHANGELOG.md
           git commit -m 'Append to CHANGELOG.md [skip ci]' git push
+          git push
 
       - name: Create release
         uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.1.0
