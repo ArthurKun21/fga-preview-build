@@ -49,7 +49,7 @@ jobs:
       - name: Clean up build artifacts
         run: |
           cp app/build/outputs/apk/preview/app-preview.apk fga-preview-${{ env.COMMIT_COUNT }}.apk
-          sha=`sha256sum fga-preview-${{ env.COMMIT_COUNT }}.apk | awk '{ print $1 }'`
+          sha=`shasum -a 256 fga-preview-${{ env.COMMIT_COUNT }}.apk | awk '{ print $1 }'`
           echo "APK_UNIVERSAL_SHA=$sha" >> $GITHUB_ENV
 
       - name: Create release
