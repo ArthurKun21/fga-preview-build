@@ -19,7 +19,7 @@ jobs:
         with:
           repository: 'ArthurKun21/FGA-Preview'
           token: ${{ secrets.PAT }}
-          
+
       - name: Get previous release
         id: last_release
         uses: InsonusK/get-latest-release@7a9ff16c8c6b7ead5d71c0f1cc61f2703170eade # v1.1.0
@@ -29,8 +29,6 @@ jobs:
           view_top: 1
       - name: Prepare build
         run: |
-          set -e
-
           commit_count=$(git rev-list --count HEAD)
           echo "COMMIT_COUNT=$commit_count" >> $GITHUB_ENV
           current_sha=$(git rev-parse --short HEAD)
