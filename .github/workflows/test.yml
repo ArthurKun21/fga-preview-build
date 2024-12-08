@@ -36,22 +36,23 @@ jobs:
       - name: Prepare build
         run: |
           commit_count=$(git rev-list --count HEAD)
+          echo "commit_count $commit_count"
           echo "COMMIT_COUNT=$commit_count" >> $GITHUB_ENV
           current_sha=$(git rev-parse --short HEAD)
-          echo "$current_sha"
+          echo "current_sha $current_sha"
           echo "CURRENT_SHA=$current_sha" >> $GITHUB_ENV
           
           echo "FGA_VERSION_CODE=$commit_count" >>${GITHUB_ENV}
           echo "FGA_VERSION_NAME=$current_sha" >>${GITHUB_ENV}
 
           prev_commit_count=$(echo "${{ steps.last_release.outputs.tag_name }}" | sed -e "s/^pre-//")
-          echo "$prev_commit_count"
+          echo "prev_commit_count $prev_commit_count"
 
           commit_count_diff=$(expr $commit_count - $prev_commit_count)
-          echo "$commit_count_diff"
+          echo "commit_count_diff $commit_count_diff"
 
           prev_release_sha=$(git rev-parse --short HEAD~$commit_count_diff)
-          echo "$prev_release_sha"
+          echo "prev_release_sha $prev_release_sha"
 
           echo "PREV_RELEASE_SHA=$prev_release_sha" >> $GITHUB_ENV
 
