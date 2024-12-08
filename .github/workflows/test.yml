@@ -33,15 +33,12 @@ jobs:
           echo "id: ${{ steps.last_release.outputs.id }}"
           echo "name: ${{ steps.last_release.outputs.name }}"
           echo "tag_name: ${{ steps.last_release.outputs.tag_name }}"
-          echo "created_at: ${{ steps.last_release.outputs.created_at }}"
-          echo "draft: ${{ steps.last_release.outputs.draft }}"
-          echo "prerelease: ${{ steps.last_release.outputs.prerelease }}"
-          echo "url: ${{ steps.last_release.outputs.url }}"
       - name: Prepare build
         run: |
           commit_count=$(git rev-list --count HEAD)
           echo "COMMIT_COUNT=$commit_count" >> $GITHUB_ENV
           current_sha=$(git rev-parse --short HEAD)
+          echo "$current_sha"
           echo "CURRENT_SHA=$current_sha" >> $GITHUB_ENV
           
           echo "FGA_VERSION_CODE=$commit_count" >>${GITHUB_ENV}
@@ -54,6 +51,7 @@ jobs:
           echo "$commit_count_diff"
 
           prev_release_sha=$(git rev-parse --short HEAD~$commit_count_diff)
+          echo "$prev_release_sha"
 
           echo "PREV_RELEASE_SHA=$prev_release_sha" >> $GITHUB_ENV
 
