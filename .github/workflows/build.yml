@@ -1,6 +1,10 @@
 name: build app
 
 on:
+  # Every Saturday at 21:00 UTC
+  schedule:
+    - cron: '0 21 * * 6'
+  # Manual triggers
   workflow_dispatch:
 
 env:
@@ -14,18 +18,47 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           repository: 'ArthurKun21/FGA-Preview'
           token: ${{ secrets.PAT }}
+      - name: Get previous release
+        id: last_release
+        uses: InsonusK/get-latest-release@7a9ff16c8c6b7ead5d71c0f1cc61f2703170eade # v1.1.0
+        with:
+          myToken: ${{ github.token }}
+          exclude_types: "draft|prerelease"
+          view_top: 1
+      - name: Prepare build
+        run: |
+          commit_count=$(git rev-list --count HEAD)
+          echo "COMMIT_COUNT=$commit_count" >> $GITHUB_ENV
+          current_sha=$(git rev-parse --short HEAD)
+          echo "CURRENT_SHA=$current_sha" >> $GITHUB_ENV
+          
+          echo "FGA_VERSION_CODE=$commit_count" >>${GITHUB_ENV}
+          echo "FGA_VERSION_NAME=$current_sha" >>${GITHUB_ENV}
+
+          prev_commit_count=$(echo "${{ steps.last_release.outputs.tag_name }}" | sed -e "s/^pre-//")
+          commit_count_diff=$(expr $commit_count - $prev_commit_count)
+          prev_release_sha=$(git rev-parse --short HEAD~$commit_count_diff)
+          echo "PREV_RELEASE_SHA=$prev_release_sha" >> $GITHUB_ENV
+
+          echo "COMMIT_LOGS<<{delimiter}
+          $(curl -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/Arthurkun21/fga-preview/compare/$prev_release_sha...$current_sha" \
+            | jq '[.commits[]|{message:(.commit.message | split("\n")), username:.author.login}]' \
+            | jq -r '.[]|"- \(.message | first) (@\(.username))"')
+          {delimiter}" >> $GITHUB_ENV
 
       - name: Validate Gradle Wrapper
         uses: gradle/actions/wrapper-validation@v3
-    
+      
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRO }}
-
+  
       - name: Set up gradle
         uses: gradle/actions/setup-gradle@v4
     
@@ -33,8 +66,33 @@ jobs:
         run: |
           ./gradlew assemblepreview --scan --parallel --no-daemon
       
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - name: Clean up build artifacts
+        run: |
+          cp app/build/outputs/apk/preview/app-preview.apk fga-preview-${{ env.COMMIT_COUNT }}.apk
+          sha=`shasum -a 256 fga-preview-${{ env.COMMIT_COUNT }}.apk | awk '{ print $1 }'`
+          echo "APK_UNIVERSAL_SHA=$sha" >> $GITHUB_ENV
+
+      - name: Create release
+        uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.1.0
         with:
-          name: apk-${{ github.run_number }}
-          path: app/build/outputs/apk/preview/app-preview.apk
+          tag_name: pre-${{ env.COMMIT_COUNT }}
+          name: FGA Preview ${{ env.COMMIT_COUNT }}
+          body: |
+            ### Commits
+
+            https://github.com/mihonapp/mihon/compare/${{ env.PREV_RELEASE_SHA }}...${{ env.CURRENT_SHA }}
+
+            ${{ env.COMMIT_LOGS }}
+
+            ---
+              
+            ### Checksums
+
+            | Variant | SHA-256 |
+            | ------- | ------- |
+            | Universal APK | ${{ env.APK_UNIVERSAL_SHA }} |
+          files: |
+            fga-preview-${{ env.COMMIT_COUNT }}.apk
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
