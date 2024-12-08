@@ -1,4 +1,4 @@
-name: build app
+name: test release
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ env:
   JAVA_DISTRO: 'temurin'
 
 jobs:
-  build-app:
+  test-release:
     runs-on: macos-latest
     steps:
       - name: Get previous release
