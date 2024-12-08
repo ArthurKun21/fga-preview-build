@@ -18,7 +18,7 @@ jobs:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.
       contents: write
-      
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -101,7 +101,7 @@ jobs:
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com' 
 
           git add CHANGELOG.md
-          git commit -m 'Append to CHANGELOG.md [skip ci]' git push
+          git commit -m 'Append to CHANGELOG.md [skip ci]'
           git push
 
       - name: Create release
