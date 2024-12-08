@@ -82,7 +82,7 @@ jobs:
           body: |
             ### Commits
 
-            https://github.com/mihonapp/mihon/compare/${{ env.PREV_RELEASE_SHA }}...${{ env.CURRENT_SHA }}
+            https://github.com/ArthurKun21/fga-preview/compare/${{ env.PREV_RELEASE_SHA }}...${{ env.CURRENT_SHA }}
 
             ${{ env.COMMIT_LOGS }}
 
