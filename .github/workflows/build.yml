@@ -156,5 +156,5 @@ jobs:
           CURRENT_DATE_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
           git add CHANGELOG.md
-          git commit -m 'Update CHANGELOG.md @ ${CURRENT_DATE_TIME}'
+          git commit -m "Update CHANGELOG.md @ ${CURRENT_DATE_TIME}"
           git push
