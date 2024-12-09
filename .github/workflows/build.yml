@@ -134,9 +134,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
+      - name: Get previous release
+        if: ${{ needs.build-app.outputs.CREATE_RELEASE == 'true' }}
+        id: last_release
+        uses: InsonusK/get-latest-release@7a9ff16c8c6b7ead5d71c0f1cc61f2703170eade # v1.1.0
+        with:
+          myToken: ${{ github.token }}
+          exclude_types: "draft|prerelease"
+          view_top: 1
+      
       - name: Update CHANGELOG.md
         if: ${{ needs.build-app.outputs.CREATE_RELEASE == 'true' }}
         run: |
+          echo -e "\n${{ steps.last_release.outputs.html_url }}" >> CHANGELOG.md
           echo -e "${{ needs.build-app.outputs.CHANGELOG }}" >> CHANGELOG.md
 
           git config --global user.name 'github-actions[bot]'
