@@ -63,11 +63,13 @@ jobs:
           # Get the current date
           CURRENT_DATE=$(date +"%Y-%m-%d")
 
-          COMPARISON_LINK="https://github.com/ArthurKun21/fga-preview/compare/${{ env.PREV_RELEASE_SHA }}...${{ env.CURRENT_SHA }}"
+          COMPARISON_LINK="https://github.com/ArthurKun21/fga-preview/compare/${PREV_RELEASE_SHA}...${CURRENT_SHA}"
 
-          CHANGELOG="\n## $CURRENT_DATE\n${{ env.COMMIT_LOGS }}\n\n[Compare changes]($COMPARISON_LINK)\n"
+          CHANGELOG="\n## $CURRENT_DATE\n${COMMIT_LOGS}\n\n[Compare changes]($COMPARISON_LINK)\n"
           
-          echo "CHANGELOG=${CHANGELOG}" >> $GITHUB_OUTPUT
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
           echo "CREATE_RELEASE=true" >> $GITHUB_OUTPUT
 
       - name: Validate Gradle Wrapper
