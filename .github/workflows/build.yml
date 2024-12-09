@@ -48,10 +48,7 @@ jobs:
 
           prev_release_sha=$(git rev-parse --short HEAD~$commit_count_diff)
           echo "PREV_RELEASE_SHA=$prev_release_sha" >> $GITHUB_ENV
-          
-      - name: Prepare Commit logs
-        if: ${{ env.commit_count_diff > 0 }}
-        run: |
+
           echo "COMMIT_LOGS<<{delimiter}
           $(curl -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.PAT }}" \
