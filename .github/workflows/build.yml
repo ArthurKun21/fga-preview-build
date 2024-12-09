@@ -152,6 +152,9 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com' 
 
+          # Use ISO-8601 format for consistency
+          CURRENT_DATE_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
           git add CHANGELOG.md
-          git commit -m 'Append to CHANGELOG.md [skip ci]'
+          git commit -m 'Update CHANGELOG.md @ ${CURRENT_DATE_TIME}'
           git push
