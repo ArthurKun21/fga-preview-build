@@ -15,8 +15,8 @@ jobs:
   build-app:
     runs-on: macos-latest
     outputs:
-      CREATE_RELEASE: ${{ steps.create_release.outputs.CREATE_RELEASE }}
-      CHANGELOG: ${{ steps.create_release.outputs.CHANGELOG }}
+      CREATE_RELEASE: ${{ steps.prepare_changelog.outputs.CREATE_RELEASE }}
+      CHANGELOG: ${{ steps.prepare_changelog.outputs.CHANGELOG }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -56,6 +56,19 @@ jobs:
             | jq '[.commits[]|{message:(.commit.message | split("\n")), username:.author.login}]' \
             | jq -r '.[]|"- \(.message | first) (@\(.username))"')
           {delimiter}" >> $GITHUB_ENV
+      - name: Prepare changelog
+        id: prepare_changelog
+        if: ${{ env.commit_count_diff > 0 }}
+        run: |
+          # Get the current date
+          CURRENT_DATE=$(date +"%Y-%m-%d")
+
+          COMPARISON_LINK="https://github.com/ArthurKun21/fga-preview/compare/${{ env.PREV_RELEASE_SHA }}...${{ env.CURRENT_SHA }}"
+
+          CHANGELOG="\n## $CURRENT_DATE\n${{ env.COMMIT_LOGS }}\n\n[Compare changes]($COMPARISON_LINK)\n"
+          
+          echo "CHANGELOG=${CHANGELOG}" >> $GITHUB_OUTPUT
+          echo "CREATE_RELEASE=true" >> $GITHUB_OUTPUT
 
       - name: Validate Gradle Wrapper
         if: ${{ env.commit_count_diff > 0 }}
@@ -83,18 +96,6 @@ jobs:
           cp app/build/outputs/apk/preview/app-preview.apk fga-preview-${{ env.COMMIT_COUNT }}.apk
           sha=`shasum -a 256 fga-preview-${{ env.COMMIT_COUNT }}.apk | awk '{ print $1 }'`
           echo "APK_UNIVERSAL_SHA=$sha" >> $GITHUB_ENV
-      - name: Prepare changelog
-        if: ${{ env.commit_count_diff > 0 }}
-        run: |
-          # Get the current date
-          CURRENT_DATE=$(date +"%Y-%m-%d")
-
-          COMPARISON_LINK="https://github.com/ArthurKun21/fga-preview/compare/${{ env.PREV_RELEASE_SHA }}...${{ env.CURRENT_SHA }}"
-
-          CHANGELOG="\n## $CURRENT_DATE\n${{ env.COMMIT_LOGS }}\n\n[Compare changes]($COMPARISON_LINK)\n"
-          
-          echo "CHANGELOG=${CHANGELOG}" >> $GITHUB_OUTPUT
-          echo "CREATE_RELEASE=true" >> $GITHUB_OUTPUT
 
       - name: Create release
         uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.1.0
