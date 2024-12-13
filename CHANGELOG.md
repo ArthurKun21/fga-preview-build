@@ -24,3 +24,9 @@
 
 [Compare changes](https://github.com/ArthurKun21/fga-preview/compare/7f64cd08...e133795c)
 
+
+## 2024-12-13
+- Fix race condition on creating/destroying service (#315) (@ArthurKun21)
+
+[Compare changes](https://github.com/ArthurKun21/fga-preview/compare/e133795c...c62f2e23)
+
