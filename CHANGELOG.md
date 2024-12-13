@@ -16,3 +16,11 @@
 
 [Compare changes](https://github.com/ArthurKun21/fga-preview/compare/da7a46fa...7f64cd08)
 
+
+## 2024-12-13
+- Refactor strings (#311) (@ArthurKun21)
+- Fix Compile and min SDK (#313) (@ArthurKun21)
+- Fix library config preparation (#314) (@ArthurKun21)
+
+[Compare changes](https://github.com/ArthurKun21/fga-preview/compare/7f64cd08...e133795c)
+
