@@ -30,3 +30,12 @@
 
 [Compare changes](https://github.com/ArthurKun21/fga-preview/compare/e133795c...c62f2e23)
 
+
+## 2024-12-14
+- Fix linter error (#316) (@ArthurKun21)
+- Library Predefined Server Sort (#317) (@ArthurKun21)
+- Fix Library search toggle (#318) (@ArthurKun21)
+- Fix sort settings not being saved (#319) (@ArthurKun21)
+
+[Compare changes](https://github.com/ArthurKun21/fga-preview/compare/c62f2e23...86122452)
+
