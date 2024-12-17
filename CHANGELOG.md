@@ -39,3 +39,9 @@
 
 [Compare changes](https://github.com/ArthurKun21/fga-preview/compare/c62f2e23...86122452)
 
+
+## 2024-12-17
+- Support for JP Long Press lottery (#320) (@ArthurKun21)
+
+[Compare changes](https://github.com/ArthurKun21/fga-preview/compare/86122452...078b3031)
+
