@@ -45,3 +45,11 @@
 
 [Compare changes](https://github.com/ArthurKun21/fga-preview/compare/86122452...078b3031)
 
+
+## 2024-12-18
+- Fix Toggle Service (#321) (@ArthurKun21)
+- Fix Library Select (#322) (@ArthurKun21)
+- Update Library Search icons (#323) (@ArthurKun21)
+
+[Compare changes](https://github.com/ArthurKun21/fga-preview/compare/078b3031...10fab43a)
+
