@@ -53,3 +53,10 @@
 
 [Compare changes](https://github.com/ArthurKun21/fga-preview/compare/078b3031...10fab43a)
 
+
+## 2024-12-21
+- Fix JP Lottery Present Box Full (#324) (@ArthurKun21)
+- feat(AutoLottery): Jp lottery long press improvement (#325) (@ArthurKun21)
+
+[Compare changes](https://github.com/ArthurKun21/fga-preview/compare/10fab43a...16ae67f6)
+
