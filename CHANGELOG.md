@@ -60,3 +60,16 @@
 
 [Compare changes](https://github.com/ArthurKun21/fga-preview/compare/10fab43a...16ae67f6)
 
+
+## 2024-12-23
+- Update dependabot.yml (@ArthurKun21)
+- Bump org.jetbrains.kotlinx:kotlinx-coroutines-core from 1.9.0 to 1.10.1 (@dependabot[bot])
+- Bump org.junit:junit-bom from 5.11.3 to 5.11.4 (@dependabot[bot])
+- Bump cz.adaptech.tesseract4android:tesseract4android from 4.7.0 to 4.8.0 (@dependabot[bot])
+- Bump io.mockk:mockk from 1.13.13 to 1.13.14 (@dependabot[bot])
+- Bump hilt from 2.53 to 2.54 (@dependabot[bot])
+- Bump androidx.navigation:navigation-compose from 2.8.4 to 2.8.5 (@dependabot[bot])
+- Bump androidx.compose:compose-bom from 2024.11.00 to 2024.12.01 (@dependabot[bot])
+
+[Compare changes](https://github.com/ArthurKun21/fga-preview/compare/16ae67f6...ad26809e)
+
